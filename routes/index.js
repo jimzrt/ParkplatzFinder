@@ -6,10 +6,7 @@ var timeseries = require("timeseries-analysis");
 
 
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
 
 router.post('/api/station', function(req, res){
     models.Station.create({
@@ -43,9 +40,18 @@ router.get('/api/sites', function(req, res) {
 });
 
 
-router.get('*', function(req, res) {
-        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-    });
-        
+// get single todo
+router.get('/api/sites/:id', function(req, res) {
+  models.Site.findAll({
+    where: {
+      site_id: req.params.id
+    }
+  }).then(function(site) {
+    res.json(site);
+  });
+});
+
+
+
 
 module.exports = router;

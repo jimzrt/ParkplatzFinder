@@ -1,8 +1,7 @@
-<!doctype html>
-
 <!-- ASSIGN OUR ANGULAR MODULE -->
 <html ng-app="MyApp">
 <head>
+<base href="/">
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
@@ -18,33 +17,45 @@
 		#todo-form 	 			{ margin-bottom:50px; }
 	</style>
 
+
+
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
+
+
 	<!-- SPELLS -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 
-	<script src="../node_modules/chart.js/dist/Chart.min.js"></script>
-<script src="../node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
 
-	<script src="core.js"></script>
+
+
+
+
+    <script src="js/core.js"></script> <!-- load our main application -->
+    <script src="js/services/sites.js"></script> <!-- load our todo service -->
+
+    <script src="js/controllers/main.js"></script> <!-- load up our controller -->
 
 </head>
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
-<body ng-controller="mainController">
+<body>
 	<div class="container">
 
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ sites.length }}</span></h1>
-		</div>
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
+			<div ng-view></div>
 
-<div id="chart_div1"></div>
 
-			</div>
-		</div>
+
+
+
+
 
 		
 		<div class="text-center text-muted">
