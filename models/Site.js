@@ -20,11 +20,12 @@
      duration: DataTypes.STRING,
      name: DataTypes.STRING,
      bundesland: DataTypes.STRING
-   }, {
+     }, {
      classMethods: {
        associate: function(models) {
          // associations can be defined here
-         Site.belongsTo(models.Station);
+      //   Site.belongsTo(models.Station);
+     //    Site.hasMany(models.Allocation)
        }
      }
    });

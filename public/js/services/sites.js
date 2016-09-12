@@ -4,8 +4,8 @@ angular.module('MyApp')
         
             var Sites = {};
 
-            Sites.getAll = function() {
-                return $http.get('/api/sites');
+            Sites.getAll = function(query) {
+                return $http.get('/api/sites' + query);
             };
 
              Sites.get = function(id) {

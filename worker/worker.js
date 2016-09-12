@@ -1,24 +1,19 @@
-var geolib = require('geolib');
+var d3 = require('d3');
 var models = require('../models/index');
 var Client = require('node-rest-client').Client;
 var client = new Client();
 models.sequelize.sync().then(function(){
 
-
-	setInterval(function() {
-    // your code goes here...
-
-
-	client.get("http://opendata.dbbahnpark.info/api/beta/stations", function (data, response) {
-	//console.log(data.results[0]);
+    client.get("http://opendata.dbbahnpark.info/api/beta/stations", function (data, response) {
+  //console.log(data.results[0]);
     // parsed response body as js object 
 
   for (var key = 0; key < data.results.length; key++) {
-    	models.Station.find({
-    		where: {
-    			station_id: data.results[key].bahnhofsNummer
-    		}
-    	}).then(updateStations.bind(null, data.results[key]));
+      models.Station.find({
+        where: {
+          station_id: data.results[key].bahnhofsNummer
+        }
+      }).then(updateStations.bind(null, data.results[key]));
 
 
     }
@@ -26,47 +21,66 @@ models.sequelize.sync().then(function(){
 });
 
 
+        client.get("http://opendata.dbbahnpark.info/api/beta/sites", function (data, response) {
+  //console.log(data.results[0]);
+    // parsed response body as js object 
 
-		client.get("http://opendata.dbbahnpark.info/api/beta/sites", function (data, response) {
+
+
+  for (var key = 0; key < data.results.length; key++) {
+      models.Site.find({
+        where: {
+          site_id: data.results[key].parkraumId
+        }
+      }).then(updateSites.bind(null, data.results[key]));
+
+
+    }
+
+
+    var landAvg = d3.mean(data.results, function(d) { return parseInt(d.parkraumStellplaetze); });
+console.log("AVG: " + landAvg);
+
+});
+
+
+
+
+
+	setInterval(function() {
+    // your code goes here...
+
+
+
+
+
+
+		client.get("http://opendata.dbbahnpark.info/api/beta/occupancy", function (data, response) {
 	//console.log(data.results[0]);
     // parsed response body as js object 
 
-  for (var key = 0; key < data.results.length; key++) {
+  for (var key = 0; key < data.allocations.length; key++) {
+
+     models.Allocation.find({
+        where: {
+          site_id:  data.allocations[key].site.siteId,
+          timestamp: new Date(data.allocations[key].allocation.timeSegment)
+        }
+      }).then(updateAllocations.bind(null, data.allocations[key]));
+
+      
+
+  // 	  	console.log(
+  //   distanceFromCurrent(parseFloat(data.parkraumGeoLatitude), parseFloat(data.parkraumGeoLongitude), 51.2277, 6.7735)
+  // ); 
+
+  // 	  	console.log(
+  //   distanceLib(parseFloat(data.parkraumGeoLatitude), parseFloat(data.parkraumGeoLongitude), 51.2277, 6.7735)
+  // ); 
 
 
 
-  	  	console.log(
-    distanceFromCurrent(parseFloat(data.results[key].parkraumGeoLatitude), parseFloat(data.results[key].parkraumGeoLongitude), 51.2277, 6.7735)
-  ); 
-
-  	  	console.log(
-    distanceLib(parseFloat(data.results[key].parkraumGeoLatitude), parseFloat(data.results[key].parkraumGeoLongitude), 51.2277, 6.7735)
-  ); 
-  	models.Site.create({
-  		    site_id: data.results[key].parkraumId,
-    station_id: data.results[key].parkraumBahnhofNummer,
-    info: data.results[key].parkraumBetreiber,
-    lat: parseFloat(data.results[key].parkraumGeoLatitude),
-    long: parseFloat(data.results[key].parkraumGeoLongitude),
-    cos_lat : Math.cos(parseFloat(data.results[key].parkraumGeoLatitude) * Math.PI / 180),
-sin_lat : Math.sin(parseFloat(data.results[key].parkraumGeoLatitude) * Math.PI / 180),
-cos_long : Math.cos(parseFloat(data.results[key].parkraumGeoLongitude) * Math.PI / 180),
-sin_long : Math.sin(parseFloat(data.results[key].parkraumGeoLongitude) * Math.PI / 180),
-    open_time: data.results[key].parkraumOeffnungszeiten,
-    access: data.results[key].parkraumZufahrt,
-    price_1h: data.results[key].tarif1Std ? parseFloat(data.results[key].tarif1Std.replace(',', '.')) : null,
-    price_1d: data.results[key].tarif1Tag ? parseFloat(data.results[key].tarif1Tag.replace(',', '.')) : null,
-    price_1w: data.results[key].tarif1Woche ? parseFloat(data.results[key].tarif1Woche.replace(',', '.')) : null,
-    price_20m: data.results[key].tarif20Min ? parseFloat(data.results[key].tarif20Min.replace(',', '.')) : null,
-    price_30m: data.results[key].tarif30Min ? parseFloat(data.results[key].tarif30Min.replace(',', '.')) : null,
-    duration: data.results[key].tarifParkdauer,
-    name: data.results[key].parkraumDisplayName,
-    bundesland: data.results[key].bundesland
-
-			}).then(function(station){
-				console.log("added site");
-			});
-
+  
 
     
 
@@ -76,7 +90,9 @@ sin_long : Math.sin(parseFloat(data.results[key].parkraumGeoLongitude) * Math.PI
 });
 
 
-}, 10000); // 60 * 1000 milsec
+
+
+}, 2 * 60 * 1000); // 60 * 1000 milsec
 
 });
 
@@ -99,6 +115,70 @@ function updateStations(data,stationExist) {
 			});
 		}
 	}
+
+function updateSites(data,siteExists) {
+    if(siteExists){
+      siteExists.updateAttributes({
+       open_time: data.parkraumOeffnungszeiten,
+    access: data.parkraumZufahrt,
+    price_1h: data.tarif1Std ? parseFloat(data.tarif1Std.replace(',', '.')) : null,
+    price_1d: data.tarif1Tag ? parseFloat(data.tarif1Tag.replace(',', '.')) : null,
+    price_1w: data.tarif1Woche ? parseFloat(data.tarif1Woche.replace(',', '.')) : null,
+    price_20m: data.tarif20Min ? parseFloat(data.tarif20Min.replace(',', '.')) : null,
+    price_30m: data.tarif30Min ? parseFloat(data.tarif30Min.replace(',', '.')) : null,
+    duration: data.tarifParkdauer,
+    name: data.parkraumDisplayName,
+    bundesland: data.bundesland
+      }).then(function(station) {
+        console.log("updated site");
+      });
+    }else {
+
+models.Site.create({
+          site_id: data.parkraumId,
+    station_id: data.parkraumBahnhofNummer,
+    info: data.parkraumBetreiber,
+    lat: parseFloat(data.parkraumGeoLatitude),
+    long: parseFloat(data.parkraumGeoLongitude),
+    cos_lat : Math.cos(parseFloat(data.parkraumGeoLatitude) * Math.PI / 180),
+sin_lat : Math.sin(parseFloat(data.parkraumGeoLatitude) * Math.PI / 180),
+cos_long : Math.cos(parseFloat(data.parkraumGeoLongitude) * Math.PI / 180),
+sin_long : Math.sin(parseFloat(data.parkraumGeoLongitude) * Math.PI / 180),
+    open_time: data.parkraumOeffnungszeiten,
+    access: data.parkraumZufahrt,
+    price_1h: data.tarif1Std ? parseFloat(data.tarif1Std.replace(',', '.')) : null,
+    price_1d: data.tarif1Tag ? parseFloat(data.tarif1Tag.replace(',', '.')) : null,
+    price_1w: data.tarif1Woche ? parseFloat(data.tarif1Woche.replace(',', '.')) : null,
+    price_20m: data.tarif20Min ? parseFloat(data.tarif20Min.replace(',', '.')) : null,
+    price_30m: data.tarif30Min ? parseFloat(data.tarif30Min.replace(',', '.')) : null,
+    duration: data.tarifParkdauer,
+    name: data.parkraumDisplayName,
+    bundesland: data.bundesland
+
+      }).then(function(station){
+        console.log("added site");
+      });
+    }
+  }
+
+
+function updateAllocations(data,allocationExist) {
+    if(allocationExist){
+      console.log("allocation already exists");
+    }else {
+
+  models.Allocation.create({
+        site_id: data.site.siteId,
+        category: data.allocation.category,
+        timestamp: data.allocation.timeSegment
+      }).then(function(station){
+        console.log("added allocation");
+      });
+    }
+  }
+
+
+
 
 
 

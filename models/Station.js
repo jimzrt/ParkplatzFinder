@@ -8,7 +8,7 @@
      classMethods: {
        associate: function(models) {
          // associations can be defined here
-         Station.hasMany(models.Site)
+       //  Station.hasMany(models.Site)
        }
      }
    });

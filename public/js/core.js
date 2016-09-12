@@ -1,10 +1,6 @@
-google.load('visualization', '1', {
-  packages: ['corechart']
-});
 
 
-
-var app = angular.module('MyApp', ["ngRoute", "nvd3"]);
+var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter"]);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -20,8 +16,9 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl : "charts.htm",
         controller: "chartsController"
     })
-    .when("/blue", {
-        templateUrl : "blue.htm"
+    .when("/list", {
+        templateUrl : "list.htm",
+         controller: "listController"
     });
 
      $locationProvider.html5Mode(true);

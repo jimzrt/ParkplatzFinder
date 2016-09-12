@@ -1,7 +1,7 @@
 <!-- ASSIGN OUR ANGULAR MODULE -->
 <html ng-app="MyApp">
 <head>
-<base href="/">
+	<base href="/">
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
@@ -9,61 +9,189 @@
 	<title>Node/Angular Todo App</title>
 
 	<!-- SCROLLS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-	<style>
-		html 					{ overflow-y:scroll; }
-		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
-	</style>
 
 
 
 
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
 
-<script src="bower_components/d3/d3.js"></script>
-<script src="bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
-<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
-<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
+	<script src="bower_components/angular/angular.js"></script>
+
+	<link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="/bower_components/angular-aria/angular-aria.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js"></script>
+	<script src="/bower_components/angular-material/angular-material.js"></script>
+
+    <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+
+	<script src="bower_components/d3/d3.js"></script>
+	<script src="bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+	<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+	<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
 
 
 	<!-- SPELLS -->
 
-	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 
 
 
 
 
 
-    <script src="js/core.js"></script> <!-- load our main application -->
-    <script src="js/services/sites.js"></script> <!-- load our todo service -->
 
-    <script src="js/controllers/main.js"></script> <!-- load up our controller -->
+
+
+
+
+
+	<script src="js/core.js"></script> <!-- load our main application -->
+	<script src="js/services/stations.js"></script> <!-- load our todo service -->
+	<script src="js/services/sites.js"></script> <!-- load our todo service -->
+	<script src="js/services/allocations.js"></script> <!-- load our todo service -->
+		<script src="js/services/geolocation.js"></script> <!-- load our todo service -->
+
+	<script src="js/filter/filter.js"></script> <!-- load our todo service -->
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 
 </head>
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
-<body>
-	<div class="container">
-
-
-			<div ng-view></div>
+<body ng-cloak ng-controller="AppCtrl">
 
 
 
+	<style type="text/css">
+		.md-autocomplete-suggestions li {
+
+
+			line-height: initial;
+			height: initial; 
+		}
+	</style>
+
+
+
+<div layout="column" ng-cloak style="height:100%">
+  <section layout="row" flex>
 
 
 
 
-		
-		<div class="text-center text-muted">
-			<p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-			<p>Read the <a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular">tutorial</a>.</p>
-		</div>
 
+		<md-sidenav
+		class="md-sidenav-left"
+		md-component-id="left"
+		md-is-locked-open="$mdMedia('gt-md')"
+		md-whiteframe="4">
+
+		<md-toolbar class="md-theme-indigo">
+			<h1 class="md-toolbar-tools">Sidenav Left</h1>
+		</md-toolbar>
+		<md-content layout-padding ng-controller="LeftCtrl">
+			<md-button ng-click="close()" class="md-primary" hide-gt-md>
+				Close Sidenav Left
+			</md-button>
+			<p hide show-gt-md>
+				This sidenav is locked open on your device. To go back to the default behavior,
+				narrow your display.
+					<a ng-click="$back()">Back</a>
+
+			</p>
+		</md-content>
+
+	</md-sidenav>
+
+
+ <md-content flex layout-padding>
+
+
+		<div ng-controller="DemoCtrl as ctrl" layout="column" flex ng-cloak>
+
+
+
+
+
+
+
+
+			<md-content layout-padding layout="column">
+				<form ng-submit="$event.preventDefault()">
+					<md-autocomplete
+					ng-disabled="ctrl.isDisabled"
+					md-no-cache="ctrl.noCache"
+					md-selected-item="ctrl.selectedItem"
+					md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+					md-search-text="ctrl.searchText"
+					md-selected-item-change="ctrl.selectedItemChange(item)"
+					md-items="item in ctrl.querySearch(ctrl.searchText)"
+					md-item-text="item.name"
+					md-min-length="0"
+					placeholder="Pick an Angular repository"
+					md-menu-class="autocomplete-custom-template">
+					<md-item-template>
+						<md-card>
+							<md-card-title>
+								<md-card-title-text>
+									<span class="md-headline">Action buttons</span>
+								</md-card-title-text>
+							</md-card-title>
+							<md-card-content>
+
+								{{item.name}}
+
+
+							</md-card-content>
+							<md-card-actions layout="row" layout-align="end center">
+								<md-button>{{item.watchers}}</md-button>
+								<md-button>{{item.forks}}</md-button>
+							</md-card-actions>
+						</md-card>
+
+
+					</md-item-template>
+				</md-autocomplete>
+			</form>
+		</md-content>
 	</div>
+
+
+
+
+
+
+
+<!--  <div ng-controller="instantSearchCtrl">
+            <h3 class="headName">Ajax Live search using AngularJs</h3>
+            <div class="bar">
+                <input type="text" class="search" ng-model="searchString" placeholder="Enter your search terms" />
+            </div>
+            <ul class="data-ctrl">
+                <li ng-repeat="i in items | searchFor:searchString">
+                    <p>{{i.name}}
+                </li>
+            </ul>
+        </div> -->
+
+        <div class="container">
+
+
+        	<div ng-view></div>
+
+
+
+
+
+
+
+
+
+        </div>
+
+            </md-content>
+</section>
+
+    </div>
+
 
 </body>
 </html>

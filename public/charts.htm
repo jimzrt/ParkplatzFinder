@@ -1,2 +1,40 @@
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+ rel="stylesheet">
 
-        <nvd3 options="options" data="data"></nvd3>
+      <md-toolbar class="">
+         <div class="md-toolbar-tools">
+            <h2 class="md-flex"><i class="material-icons md-48">arrow_back</i> {{site.name}}</h2>
+         </div>
+      </md-toolbar>
+
+ <md-content class="md-padding" layout-xs="column" layout="column">
+
+
+
+
+     <div style="width:50%">
+
+<md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Freie Plätze</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+
+        <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Action 1</md-button>
+          <md-button>Action 2</md-button>
+        </md-card-actions>
+      </md-card>
+     </div>
+
+  </md-content>
+
+
+
+  {{site}}
