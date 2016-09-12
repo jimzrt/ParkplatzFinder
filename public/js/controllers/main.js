@@ -148,9 +148,7 @@ $scope.site = data[0];
                 },
                 yAxis: {
                     axisLabel: 'Freie Plätze',
-                    tickFormat: function(d){
-                        return d;
-                    },
+                    tickFormat: d3.format("d"),
                     //axisLabelDistance: -10
                 },
                 forceY : [d3.min(data2, function (d) { return d.category; })-1,d3.max(data2, function (d) { return d.category; }) + 1],
