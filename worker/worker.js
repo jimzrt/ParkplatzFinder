@@ -1,7 +1,12 @@
-var d3 = require('d3');
+// var d3 = require('d3');
 var models = require('../models/index');
 var Client = require('node-rest-client').Client;
 var client = new Client();
+// var SegfaultHandler = require('segfault-handler');
+
+// SegfaultHandler.registerHandler("crash.log"); // With no argument, SegfaultHandler will generate a generic log file name
+
+
 models.sequelize.sync().then(function(){
 
     client.get("http://opendata.dbbahnpark.info/api/beta/stations", function (data, response) {
@@ -38,8 +43,8 @@ models.sequelize.sync().then(function(){
     }
 
 
-    var landAvg = d3.mean(data.results, function(d) { return parseInt(d.parkraumStellplaetze); });
-console.log("AVG: " + landAvg);
+//     var landAvg = d3.mean(data.results, function(d) { return parseInt(d.parkraumStellplaetze); });
+// console.log("AVG: " + landAvg);
 
 });
 

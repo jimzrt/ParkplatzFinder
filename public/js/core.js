@@ -1,6 +1,6 @@
 
 
-var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter"]);
+var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter",'ngMdIcons']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -25,5 +25,20 @@ app.config(function($routeProvider, $locationProvider) {
 });
 
 
-
+app.config(function($mdThemingProvider) {
+  var customBlueMap =       $mdThemingProvider.extendPalette('light-blue', {
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': ['50'],
+    '50': 'ffffff'
+  });
+  $mdThemingProvider.definePalette('customBlue', customBlueMap);
+  $mdThemingProvider.theme('default')
+    .primaryPalette('customBlue', {
+      'default': '500',
+      'hue-1': '50'
+    })
+    .accentPalette('pink');
+  $mdThemingProvider.theme('input', 'default')
+        .primaryPalette('grey')
+});
 

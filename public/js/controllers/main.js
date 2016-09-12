@@ -1,6 +1,8 @@
 // js/controllers/main.js
     
-angular.module('MyApp').controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log, geolocationSvc) {
+angular.module('MyApp').controller('AppCtrl', function ($scope, $location, $timeout, $mdSidenav, $log, geolocationSvc) {
+
+
 
 
   $scope.$back = function() { 
@@ -8,104 +10,98 @@ angular.module('MyApp').controller('AppCtrl', function ($scope, $timeout, $mdSid
   };
 
 
-    $scope.toggleLeft = buildDelayedToggler('left');
-    $scope.toggleRight = buildToggler('right');
-    $scope.isOpenRight = function(){
-      return $mdSidenav('right').isOpen();
-    };
+$scope.toggleSidenav = function(menuId) {
+    $mdSidenav(menuId).toggle();
+  };
 
-    /**
-     * Supplies a function that will continue to operate until the
-     * time is up.
-     */
-    function debounce(func, wait, context) {
-      var timer;
 
-      return function debounced() {
-        var context = $scope,
-            args = Array.prototype.slice.call(arguments);
-        $timeout.cancel(timer);
-        timer = $timeout(function() {
-          timer = undefined;
-          func.apply(context, args);
-        }, wait || 10);
-      };
+  $scope.menu = [
+  {
+      link : '/',
+      title: 'Home',
+      icon: 'home',
+    },
+    {
+      link : '/stations',
+      title: 'Bahnhöfe',
+      icon: 'dashboard',
+    },
+    {
+      link : '/sites',
+      title: 'Parkhäuser',
+      icon: 'group',
+
+    },
+    {
+      link : '/list',
+      title: 'Liste',
+      icon: 'message',
+
     }
-
-    /**
-     * Build handler to open/close a SideNav; when animation finishes
-     * report completion in console
-     */
-    function buildDelayedToggler(navID) {
-      return debounce(function() {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID)
-          .toggle()
-          .then(function () {
-            $log.debug("toggle " + navID + " is done");
-          });
-      }, 200);
+  ];
+  $scope.admin = [
+    {
+      link : '',
+      title: 'Trash',
+      icon: 'delete'
+    },
+    {
+      link : '',
+      title: 'Settings',
+      icon: 'settings'
     }
+  ];
 
-    function buildToggler(navID) {
-      return function() {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID)
-          .toggle()
-          .then(function () {
-            $log.debug("toggle " + navID + " is done");
-          });
+
+    $scope.isActive = function(item) {
+      if (item.link == $location.path()) {
+        return true;
       }
-    }
-  })
-  .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.close = function () {
-      // Component lookup should always be available since we are not using `ng-if`
-      $mdSidenav('left').close()
-        .then(function () {
-          $log.debug("close LEFT is done");
-        });
-
+      return false;
     };
-  })
+
+
+    $scope.getActive = function() {
+    return $scope.menu.filter(function( obj ) {
+
+  return  $scope.isActive(obj) == true;
+
+})[0];
+    };
 
 
 
 
 
 
+  });
+ 
 
 
 
-angular.module('MyApp').controller('sitesController', function($scope, $http, Sites) {
-
- Sites.getAll().success(function(data) {
-console.log(data);
-
-$scope.sites = data;
-        var data1 = new google.visualization.DataTable();
-        data1.addColumn('string', 'year/mon');
-        data1.addColumn('number', 'avarage');
-        for(i = 0 ; i < data.length;i++) {
-
-          data1.addRow([data[i].createdAt, data[i].price_1h]);
-        };
-        var options = {
-          'title':'Sample Title',
-          'height':300
-        };
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
-        var formatter = new google.visualization.NumberFormat(
-          {fractionDigits: 2}
-        );
-        formatter.format(data1, 1);
-        chart.draw(data1, options);
-      });
-    }
-
-    );
 
 
+
+angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
+
+
+
+             Sites.getAll().success(function(dataSite) {
+
+           //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
+            //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
+
+
+             $scope.items = dataSite;
+
+
+
+            
+  });
+
+  
+
+}]);
 
 
 
@@ -327,20 +323,27 @@ Sites.getAll().success(function(data) {
 
           function listController ($scope, Stations, Sites, geolocationSvc) {
 
+            $scope.stations = [];
+
             Stations.getAll().success(function(dataStation) {
+
+                           $scope.stations = dataStation;
+
+ });
+
+                        $scope.sites = [];
+
              Sites.getAll("?notEmpty=1").success(function(dataSite) {
 
            //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
             //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
 
 
-             $scope.stations = dataStation;
              $scope.sites = dataSite;
 
-             console.log(2);
 
 
-             });
+            
   });
 
 

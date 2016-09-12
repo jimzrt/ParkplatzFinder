@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
 var sequelize = require('sequelize');
-var timeseries = require("timeseries-analysis");
+//var timeseries = require("timeseries-analysis");
 
 
 

@@ -9,14 +9,18 @@
          </div>
       </md-toolbar>
 
- <md-content class="md-padding" layout-xs="column" layout="column">
 
 
 
 
-     <div style="width:50%">
+ <md-content class="md-padding" layout-xs="row" layout-wrap>
 
-<md-card>
+    <div flex-xs flex-gt-xs="50" layout="row">
+
+
+
+
+<md-card style="width:100%;height:500px">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Freie Plätze</span>
@@ -24,7 +28,7 @@
         </md-card-title>
         <md-card-content>
 
-        <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+        <nvd3 options="options" data="data" class="with-3d-shadow with-transitions" style="width:100%;height:100%"></nvd3>
 
 
         </md-card-content>
@@ -33,10 +37,15 @@
           <md-button>Action 2</md-button>
         </md-card-actions>
       </md-card>
-     </div>
+
+
+
+
+</div>
+
+
+
 
   </md-content>
 
 
-
-  {{site}}
