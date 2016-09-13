@@ -1,8 +1,8 @@
  <style type="text/css">
 .full-heigth {
-    height: -moz-calc(100% - 164px); 
-    height: -webkit-calc(100% - 164px); 
-    height: calc(100% - 164px);
+    height: -moz-calc(100% - 64px); 
+    height: -webkit-calc(100% - 64px); 
+    height: calc(100% - 64px);
 }
  </style>
 
@@ -16,14 +16,13 @@
     </md-toolbar>
 
     <md-content style="height: 100%">
-      <section>
-         <md-subheader>Bahnhöfe</md-subheader>
-         <md-list >
-            <md-list-item ng-repeat="station in stations| fuzzyBy: 'name': search" class="">
 
 
-             <div class="md-list-item-text">
-               <h3>{{station.name}}</h3>
+    <md-virtual-repeat-container id="vertical-container">
+       <md-list-item md-virtual-repeat="station in stations" md-on-demand
+          class="repeated-item" flex>
+       <div class="md-list-item-text">
+               <h3>{{::station.name}}</h3>
 <!--                   <p>
                      <div ng-repeat="site in sites | filterBy: ['station_id']: station.station_id: true | filter:{name: ''}" >
                         {{ site.name }}    {{ site.station_id }}
@@ -57,46 +56,7 @@
 
 
    </md-list-item>
-</md-list>
-</section>
-<section>
-   <md-subheader>Parkhäuser</md-subheader>
-   <md-list>
-   <md-list-item ng-repeat="site in sites | fuzzyBy: 'name': search" class="">
+    </md-virtual-repeat-container>
 
-    <div class="md-list-item-text">
-               <h3>{{site.name}}</h3>
-                  <p>
-                    {{site.open_time}}
-                  </p>
-               </div>
-
-               <md-menu class="md-secondary">
-                                       <ng-md-icon icon="menu"></ng-md-icon>
-
-                 <md-menu-content width="4">
-                    <md-menu-item>
-                      <md-button href="/charts/{{site.site_id}}">
-                        Details
-                     </md-button>
-                  </md-menu-item>
-                  <md-menu-item>
-                   <md-button>
-                     Navigieren
-                  </md-button>
-               </md-menu-item>
-               <md-menu-divider></md-menu-divider>
-               <md-menu-item>
-                <md-button>
-                  Notifications
-               </md-button>
-            </md-menu-item>
-         </md-menu-content>
-      </md-menu>
-
-
-      </md-list-item>
-   </md-list>
-</section>
 </md-content>
 </div>

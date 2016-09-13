@@ -14,6 +14,11 @@
   .angular-google-map-container { height: 400px; width: 400px;}
 
 
+  .md-button.md-default-theme.md-focused:not([disabled]), .md-button.md-focused:not([disabled]) {
+    background-color: initial;
+}
+
+
 </style>
 
 
@@ -117,7 +122,7 @@
 
 
 
-<div layout="column" class="relative" layout-fill role="main">
+<div layout="column" class="relative" flex role="main">
       <md-toolbar ng-show="!showSearch" class="md-hue-2">
         <div class="md-toolbar-tools">
           <ng-md-icon icon="menu" ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu"></ng-md-icon>
@@ -219,10 +224,7 @@
        
       </md-toolbar> -->
 
-      <md-content flex layout-fill>
-        <ui-view layout="column" layout-fill layout-padding>
-          <div class="inset" hide-sm></div>
-
+    <div layout="row" flex> 
 
 
 
@@ -249,7 +251,7 @@
 
 
 
-        	<div ng-view></div>
+        <ng-view flex class="md-padding"></ng-view>
 
 
 
@@ -259,10 +261,8 @@
 
 
 
-
-        </ui-view>
-      </md-content>
     </div>
+        </div>
 
 
 </body>

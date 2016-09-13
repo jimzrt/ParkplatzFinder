@@ -5,11 +5,11 @@ angular.module('MyApp')
             var Stations = {};
 
             Stations.getAll = function() {
-                return $http.get('/api/stations');
+                return $http.get('/api/stations', { cache: true});
             };
 
              Stations.get = function(id) {
-                return $http.get('/api/stations/'+id);
+                return $http.get('/api/stations/'+id, { cache: true});
             };
         return Stations;
     });

@@ -5,8 +5,8 @@
   },
   "test": {
 
-    "username": "james",
-    "password": null,
+    "username": "postgres",
+    "password": "hunter",
     "database": "parkplatz",
     "host": "127.0.0.1",
     "dialect": "postgres"
