@@ -10,11 +10,9 @@
  <div ng-controller="listController as ctrl" class="full-heigth">
       
 
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <div class="md-toolbar-tools"><input type="text" ng-model="search" placeholder="search by title" />
+    <md-toolbar class="md-hue-1 md-whiteframe-z2">
+            <div class="md-toolbar-tools"><input type="text" ng-model="search" placeholder="Suche" class=""/>
 </div>
-        </div>
     </md-toolbar>
 
     <md-content style="height: 100%">
@@ -33,6 +31,28 @@
                      </div>
                   </p> -->
                </div>
+               <md-menu class="md-secondary">
+                                       <ng-md-icon icon="menu"></ng-md-icon>
+
+                 <md-menu-content width="4">
+                    <md-menu-item>
+                      <md-button href="/station/{{station.station_id}}">
+                        Details
+                     </md-button>
+                  </md-menu-item>
+                  <md-menu-item>
+                   <md-button>
+                     Navigieren
+                  </md-button>
+               </md-menu-item>
+               <md-menu-divider></md-menu-divider>
+               <md-menu-item>
+                <md-button>
+                  Notifications
+               </md-button>
+            </md-menu-item>
+         </md-menu-content>
+      </md-menu>
 
 
 

@@ -1,11 +1,12 @@
 
 
-var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter",'ngMdIcons']);
+var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter",'ngMdIcons', 'uiGmapgoogle-maps']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "main.htm"
+        templateUrl : "home.htm",
+        controller : "homeController"
     })
     .when("/sites", {
         templateUrl : "sites.htm",
@@ -26,19 +27,15 @@ app.config(function($routeProvider, $locationProvider) {
 
 
 app.config(function($mdThemingProvider) {
-  var customBlueMap =       $mdThemingProvider.extendPalette('light-blue', {
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': ['50'],
-    '50': 'ffffff'
-  });
-  $mdThemingProvider.definePalette('customBlue', customBlueMap);
   $mdThemingProvider.theme('default')
-    .primaryPalette('customBlue', {
-      'default': '500',
-      'hue-1': '50'
-    })
-    .accentPalette('pink');
-  $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey')
+    .primaryPalette('red')
+    .accentPalette('blue').dark();
+
+
+    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+  $mdThemingProvider.theme('dark-orange').backgroundPalette('grey');
+  $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+  $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });
+
 

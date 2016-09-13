@@ -1,9 +1,9 @@
 {
-  "test": {
+  "development": {
         "dialect": "sqlite",
     "storage": "./db.devel.sqlite"
   },
-  "development": {
+  "test": {
 
     "username": "james",
     "password": null,

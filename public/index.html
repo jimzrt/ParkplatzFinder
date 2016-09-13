@@ -10,7 +10,11 @@
 
 	<!-- SCROLLS -->
 
+<style type="text/css">
+  .angular-google-map-container { height: 400px; width: 400px;}
 
+
+</style>
 
 
 
@@ -35,7 +39,10 @@
 
 
 
-
+<script src='/bower_components/lodash/dist/lodash.min.js'></script>
+<script src='/bower_components/angular-simple-logger/dist/angular-simple-logger.min.js'></script>
+<script src='/bower_components/angular-google-maps/dist/angular-google-maps.min.js'></script>
+<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 
 
 
@@ -83,7 +90,7 @@
       </md-toolbar>
       <md-list>
       <md-list-item ng-repeat="item in menu" class="" >
-          <md-button  ng-class="{'md-raised': isActive(item)}" style="width:100%" ng-click="toggleSidenav('left')" href="{{item.link}}" >
+          <md-button  ng-class="{'md-raised': isActive(item)}" style="width:100%" ng-click="toggleSidenavAndGoto('left',item.link)" >
 
           <md-item-content layout="row" layout-align="start center">
             <div class="inset">
@@ -111,22 +118,49 @@
 
 
 <div layout="column" class="relative" layout-fill role="main">
-      <md-toolbar ng-show="!showSearch">
+      <md-toolbar ng-show="!showSearch" class="md-hue-2">
         <div class="md-toolbar-tools">
-          <md-button ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu">
-            <ng-md-icon icon="menu"></ng-md-icon>
-          </md-button>
+          <ng-md-icon icon="menu" ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu"></ng-md-icon>
+
            <ng-md-icon icon="{{getActive().icon}}" ></ng-md-icon>
-          <h3 style="padding-left:20px">
-            {{getActive().title}}
-          </h3>
+          
           <span flex></span>
-          <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+          <span class="md-body-1">Standort: {{location}} </span>
+          <ng-md-icon ng-hide="located" ng-click="getCurrent()" icon='gps_fixed'></ng-md-icon> <ng-md-icon ng-hide="located" icon='satellite' ng-click="showPrerenderedDialog()"></ng-md-icon>
+<!--           <md-button aria-label="Search" ng-click="showSearch = !showSearch">
             <ng-md-icon icon="search"></ng-md-icon>
-          </md-button>
+          </md-button> -->
         </div>
       </md-toolbar>
-      <md-toolbar class="md-hue-1" ng-show="showSearch">
+
+
+
+
+<div style="visibility: hidden">
+  <div class="md-dialog-container" id="myStaticDialog">
+         <md-dialog aria-label="List dialog">
+            <md-dialog-content>
+              <ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" draggable="true" events="map.events">
+        <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>
+    </ui-gmap-google-map>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button ng-click="closeDialog()" class="md-primary">
+          Close Dialog
+        </md-button>
+      </md-dialog-actions>
+    </md-dialog>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!--       <md-toolbar class="md-hue-1" ng-show="showSearch">
         <div class="md-toolbar-tools">
 
 		<div ng-controller="DemoCtrl as ctrl" layout="column" flex ng-cloak>
@@ -183,7 +217,7 @@
           </md-button>
         </div>
        
-      </md-toolbar>
+      </md-toolbar> -->
 
       <md-content flex layout-fill>
         <ui-view layout="column" layout-fill layout-padding>

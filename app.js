@@ -12,9 +12,9 @@ var routes = require('./routes/index');
 var app = express();
 
 
-var SegfaultHandler = require('segfault-handler');
+//var SegfaultHandler = require('segfault-handler');
 
-SegfaultHandler.registerHandler("crash.log"); // With no argument, SegfaultHandler will generate a generic log file name
+//SegfaultHandler.registerHandler("crash.log"); // With no argument, SegfaultHandler will generate a generic log file name
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

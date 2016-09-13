@@ -1,8 +1,150 @@
 // js/controllers/main.js
     
-angular.module('MyApp').controller('AppCtrl', function ($scope, $location, $timeout, $mdSidenav, $log, geolocationSvc) {
+angular.module('MyApp').controller('AppCtrl', function ($http, $scope, $location, $timeout, $mdSidenav, $log,  $window, geolocationSvc, $mdToast, $mdDialog, uiGmapGoogleMapApi) {
 
 
+
+//$scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+angular.extend($scope, {
+        map: {
+            center: {
+                latitude: 42.3349940452867,
+                longitude:-71.0353168884369
+            },
+            zoom: 11,
+            markers: [],
+            events: {
+            click: function (map, eventName, originalEventArgs) {
+              $scope.map.markers.pop();
+                var e = originalEventArgs[0];
+                var lat = e.latLng.lat(),lon = e.latLng.lng();
+                var marker = {
+                    id: Date.now(),
+                    coords: {
+                        latitude: lat,
+                        longitude: lon
+                    }
+                };
+                $scope.map.markers.push(marker);
+                console.log($scope.map.markers);
+                $scope.$apply();
+            }
+        }
+        }
+    });
+
+
+
+
+  var alert;
+    $scope.showAlert = showAlert;
+       $scope.showDialog = showDialog;
+    $scope.items = [1, 2, 3];
+
+    // Internal method
+    function showAlert() {
+      alert = $mdDialog.alert({
+        title: 'Attention',
+        textContent: 'This is an example of how easy dialogs can be!',
+        ok: 'Close'
+      });
+
+      $mdDialog
+        .show( alert )
+        .finally(function() {
+          alert = undefined;
+        });
+    }
+
+
+
+
+    $scope.showPrerenderedDialog = function() {
+  $mdDialog.show({
+    contentElement: '#myStaticDialog',
+    parent: angular.element(document.body)
+  });
+
+          $scope.closeDialog = function() {
+          $mdDialog.hide();
+        }
+};
+
+function showDialog($event) {
+  console.log($scope.map);
+
+   uiGmapGoogleMapApi.then(function(maps) {
+        console.log('Google Maps loaded');
+
+
+       var parentEl = angular.element(document.body);
+       $mdDialog.show({
+         parent: parentEl,
+         targetEvent: $event,
+         template:
+           '<md-dialog aria-label="List dialog">' +
+           '  <md-dialog-content>'+
+               '<ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" draggable="true" events="map.events">'+
+        '<ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>'+
+    '</ui-gmap-google-map>'+
+           '  </md-dialog-content>' +
+           '  <md-dialog-actions>' +
+           '    <md-button ng-click="closeDialog()" class="md-primary">' +
+           '      Close Dialog' +
+           '    </md-button>' +
+           '  </md-dialog-actions>' +
+           '</md-dialog>',
+         locals: {
+           items: $scope.items
+         },
+         controller: DialogController
+      });
+      function DialogController($scope, $mdDialog, items) {
+        $scope.items = items;
+        $scope.closeDialog = function() {
+          $mdDialog.hide();
+        }
+      }
+
+          });
+    }
+  
+
+    
+
+
+$scope.location = "";
+
+$scope.located = false;
+
+$scope.getCurrent = function(){
+  geolocationSvc.getCurrentPosition().then(function(value){
+
+
+
+
+$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + value.coords.latitude + '%2C' + value.coords.longitude + '&language=en').success(function(mapData) {
+  $scope.location = mapData.results[0].address_components[2].long_name + ", " + mapData.results[0].address_components[6].long_name;
+  $scope.located = true;
+
+    });
+
+
+
+
+ // $scope.location = value.coords.latitude;
+}, function(reason) {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(reason.message)
+        .hideDelay(1000).position("top right")
+    );
+  
+}
+
+
+
+)};
 
 
   $scope.$back = function() { 
@@ -15,6 +157,19 @@ $scope.toggleSidenav = function(menuId) {
   };
 
 
+  $scope.toggleSidenavAndGoto = function(menuId, link) {
+
+          if($window.innerWidth < 1280){
+             $mdSidenav(menuId).toggle().then(function(){$location.url(link)});
+           } else {   
+            $mdSidenav(menuId).toggle();
+            $location.url(link);
+           }
+         
+    
+  };
+
+
   $scope.menu = [
   {
       link : '/',
@@ -24,18 +179,18 @@ $scope.toggleSidenav = function(menuId) {
     {
       link : '/stations',
       title: 'Bahnhöfe',
-      icon: 'dashboard',
+      icon: 'account_balance',
     },
     {
       link : '/sites',
       title: 'Parkhäuser',
-      icon: 'group',
+      icon: 'local_parking',
 
     },
     {
       link : '/list',
       title: 'Liste',
-      icon: 'message',
+      icon: 'list',
 
     }
   ];
@@ -98,6 +253,17 @@ angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites'
 
             
   });
+
+  
+
+}]);
+
+
+
+angular.module('MyApp').controller('homeController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
+
+
+
 
   
 

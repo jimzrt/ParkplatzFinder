@@ -23,7 +23,6 @@
     "morgan": "~1.7.0",
     "node-rest-client": "^2.0.1",
     "pg": "^6.1.0",
-    "segfault-handler": "^1.0.0",
     "sequelize": "~3.24.2",
     "sequelize-cli": "~2.4.0",
     "serve-favicon": "~2.3.0",
