@@ -10,7 +10,12 @@
          // associations can be defined here
        //  Station.hasMany(models.Site)
        }
-     }
+     }, instanceMethods: {
+      
+       createSalt: function() {
+        return 10;
+      }
+    }
    });
    return Station;
  };

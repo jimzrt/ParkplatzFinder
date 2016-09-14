@@ -130,7 +130,7 @@
            <ng-md-icon icon="{{getActive().icon}}" ></ng-md-icon>
           
           <span flex></span>
-          <span class="md-body-1">Standort: {{location}} </span>
+          <span class="md-body-1">Standort: {{location.text}}</span>
           <ng-md-icon ng-hide="located" ng-click="getCurrent()" icon='gps_fixed'></ng-md-icon> <ng-md-icon ng-hide="located" icon='satellite' ng-click="showPrerenderedDialog()"></ng-md-icon>
 <!--           <md-button aria-label="Search" ng-click="showSearch = !showSearch">
             <ng-md-icon icon="search"></ng-md-icon>
@@ -251,7 +251,7 @@
 
 
 
-        <ng-view flex class="md-padding"></ng-view>
+        <ng-view flex></ng-view>
 
 
 

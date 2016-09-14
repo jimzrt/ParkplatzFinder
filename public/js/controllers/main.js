@@ -1,6 +1,6 @@
 // js/controllers/main.js
     
-angular.module('MyApp').controller('AppCtrl', function ($http, $scope, $location, $timeout, $mdSidenav, $log,  $window, geolocationSvc, $mdToast, $mdDialog, uiGmapGoogleMapApi) {
+angular.module('MyApp').controller('AppCtrl', function ($http, $scope, $rootScope, $location, $timeout, $mdSidenav, $log,  $window, geolocationSvc, $mdToast, $mdDialog, uiGmapGoogleMapApi) {
 
 
 
@@ -8,8 +8,8 @@ angular.module('MyApp').controller('AppCtrl', function ($http, $scope, $location
 angular.extend($scope, {
         map: {
             center: {
-                latitude: 42.3349940452867,
-                longitude:-71.0353168884369
+                latitude: 51.3388,
+                longitude:6.5853
             },
             zoom: 11,
             markers: [],
@@ -26,7 +26,6 @@ angular.extend($scope, {
                     }
                 };
                 $scope.map.markers.push(marker);
-                console.log($scope.map.markers);
                 $scope.$apply();
             }
         }
@@ -66,15 +65,20 @@ angular.extend($scope, {
   });
 
           $scope.closeDialog = function() {
+            if($scope.map.markers.length > 0){
+                                    console.log($scope.map.markers);
+                                    setLocationName($scope.map.markers[0].coords.latitude,$scope.map.markers[0].coords.longitude);
+                                  }else {
+                                    console.log("nope");
+                                  }
+
           $mdDialog.hide();
         }
 };
 
 function showDialog($event) {
-  console.log($scope.map);
 
-   uiGmapGoogleMapApi.then(function(maps) {
-        console.log('Google Maps loaded');
+
 
 
        var parentEl = angular.element(document.body);
@@ -106,26 +110,46 @@ function showDialog($event) {
         }
       }
 
-          });
+         
     }
   
 
     
 
 
-$scope.location = "";
+$rootScope.location = {};
+$rootScope.location.text = "";
 
-$scope.located = false;
+
+
+$rootScope.located = false;
 
 $scope.getCurrent = function(){
-  geolocationSvc.getCurrentPosition().then(function(value){
+  geolocationSvc.getCurrentPosition().then(function(value){setLocationName(value.coords.latitude,value.coords.longitude)}  , function(reason) {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(reason.message)
+        .hideDelay(1000).position("top right")
+    );
+  
+});
+
+
+
+};
+
+
+  function setLocationName(lat,long){
 
 
 
 
-$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + value.coords.latitude + '%2C' + value.coords.longitude + '&language=en').success(function(mapData) {
-  $scope.location = mapData.results[0].address_components[2].long_name + ", " + mapData.results[0].address_components[6].long_name;
-  $scope.located = true;
+$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + long + '&language=en').success(function(mapData) {
+  $rootScope.location.text = mapData.results[0].address_components[2].long_name + ", " + mapData.results[0].address_components[6].long_name;
+  $rootScope.location.lat = lat;
+   $rootScope.location.long = long;
+
+  $rootScope.located = true;
 
     });
 
@@ -133,18 +157,7 @@ $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + value.co
 
 
  // $scope.location = value.coords.latitude;
-}, function(reason) {
-    $mdToast.show(
-      $mdToast.simple()
-        .textContent(reason.message)
-        .hideDelay(1000).position("top right")
-    );
-  
-}
-
-
-
-)};
+};
 
 
   $scope.$back = function() { 
@@ -260,12 +273,33 @@ angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites'
 
 
 
-angular.module('MyApp').controller('homeController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
+angular.module('MyApp').controller('homeController',['$scope', '$rootScope', '$http', 'Sites', function($scope, $rootScope, $http, Sites) {
+
+console.log($rootScope.located);
+
+$scope.nearest=[{}];
+$scope.nearest[0].name ="NEEED STAANDORTT!!";
+
+  $scope.$watch('located', function(newValue, oldValue) {
+    //console.log(newValue);
+     if(newValue){
+     $scope.nearest[0].name ="Lade........";
+
+       Sites.getNearest($rootScope.location.lat, $rootScope.location.long, 1999).success(function(data){
+        $scope.nearest=data;
+       });
 
 
 
+     };
+   // var someVar = [Do something with someVar];
 
-  
+    // angular copy will preserve the reference of $scope.someVar
+    // so it will not trigger another digest 
+//    angular.copy(someVar, $scope.someVar);
+
+});
+
 
 }]);
 
@@ -489,23 +523,33 @@ Sites.getAll().success(function(data) {
 
           function listController ($scope, Stations, Sites, geolocationSvc) {
 
-            $scope.stations = [];
+       //     $scope.stations = [];
 
             Stations.getAll().success(function(dataStation) {
 
-                           $scope.stations = dataStation;
+
+setTimeout(function(){
+                           $scope.stations =  dataStation;
+                                                     $scope.$apply();
+
+}, 50);
 
  });
 
-                        $scope.sites = [];
+                    //    $scope.sites = [];
 
              Sites.getAll("?notEmpty=1").success(function(dataSite) {
 
            //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
             //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
+         //    $scope.sites = dataSite;
 
-
+            setTimeout(function(){
              $scope.sites = dataSite;
+                          $scope.$apply();
+
+}, 50);
+
 
 
 
