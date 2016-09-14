@@ -9,23 +9,39 @@ var debug = require('debug')('deutsche-bahn:server');
 var http = require('http');
 var models = require("../models");
 
+var https = require('https');
+var fs = require('fs');
+
+var pkey = fs.readFileSync('./ssl/server.key');
+var pcert = fs.readFileSync('./ssl/server.crt');
+
+var credential = {key:pkey, cert:pcert};
+
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var portS = normalizePort(process.env.PORT || '3001');
+var port = normalizePort('3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
+//app.set('key', pkey);
+//app.set('cert', pcert);
 
 var server = http.createServer(app);
+var serverS = https.createServer(credential, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 models.sequelize.sync().then(function(){
+
+    serverS.listen(portS);
+    serverS.on('error', onError);
+    serverS.on('listening', onListening);
 
     server.listen(port);
     server.on('error', onError);

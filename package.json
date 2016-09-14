@@ -20,6 +20,7 @@
     "grunt-contrib-watch": "~1.0.0",
     "grunt-nodemon": "~0.4.2",
     "jade": "~1.11.0",
+    "lodash": "^4.15.0",
     "morgan": "~1.7.0",
     "node-rest-client": "^2.0.1",
     "pg": "^6.1.0",
