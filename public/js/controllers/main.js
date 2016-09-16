@@ -149,6 +149,8 @@ $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%
   $rootScope.location.lat = lat;
    $rootScope.location.long = long;
 
+   console.log("get address")
+
   $rootScope.located = true;
 
     });
@@ -253,14 +255,29 @@ $scope.toggleSidenav = function(menuId) {
 angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
 
 
+            $scope.quantity = 10;
+            $scope.price = 5;
+            // $scope.greaterThan = function(value, value2){
+            //   console.log(value);
+            //   return value2 < parseFloat(value);
+            // };
+
+            $scope.greaterThan = function( criteria ) {
+  return function( item ) {
+    return item.price_1h > criteria;
+  };
+};
+
+
 
              Sites.getAll().success(function(dataSite) {
+            
 
            //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
             //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
 
 
-             $scope.items = dataSite;
+             $scope.sites = dataSite;
 
 
 
@@ -275,13 +292,13 @@ angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites'
 
 angular.module('MyApp').controller('homeController',['$scope', '$rootScope', '$http', 'Sites', function($scope, $rootScope, $http, Sites) {
 
-console.log($rootScope.located);
+console.log();
 
 $scope.nearest=[{}];
 $scope.nearest[0].name ="NEEED STAANDORTT!!";
 
-  $scope.$watch('located', function(newValue, oldValue) {
-    //console.log(newValue);
+  $rootScope.$watch('location.text', function(newValue, oldValue) {
+    console.log(newValue);
      if(newValue){
      $scope.nearest[0].name ="Lade........";
 
@@ -299,7 +316,6 @@ $scope.nearest[0].name ="NEEED STAANDORTT!!";
 //    angular.copy(someVar, $scope.someVar);
 
 });
-
 
 }]);
 

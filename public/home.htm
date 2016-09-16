@@ -1,10 +1,13 @@
-<md-content style="height: 100%" class="md-padding">
+ <div class="full-heigth md-padding">
 
 
-<div layout="row" layout-xs="column">
-  <div  flex=66 style="height:400px" >
+<md-content  class="md-padding">
+
+
+  <div  style="height:400px" >
+   <md-content flex="50">
 <md-list >
-        <md-subheader class="md-no-sticky">3 line item (with hover)</md-subheader>
+        <md-subheader >10 nächsten Parkhäuser</md-subheader>
         <md-list-item class="md-3-line" ng-repeat="near in nearest" ng-click="null">
           <div class="md-list-item-text" layout="column">
             <h3>{{ near.name == "" ? near.info : near.name}}</h3>
@@ -13,12 +16,16 @@
           </div>
         </md-list-item>
        
-      </md-list>  </div>
-  <div flex>
+      </md-list> 
+      </md-content>
+       </div>
+  <div >
     I'm below on mobile, and to the right on larger devices.
-  </div>
-</div>
+    </div>
+<div >
+HALLO
 
+</div>
 
  
 
@@ -30,6 +37,7 @@
 
 
 </md-content>
+</div>
 <!-- <style type="text/css">
 	.angular-google-map-container { height: 400px; }
 

@@ -23,7 +23,8 @@
 
 
              <div class="md-list-item-text">
-               <h3>{{station.name}}</h3>
+
+               <h3> <ng-md-icon icon="account_balance"></ng-md-icon> {{station.name}}</h3>
 <!--                   <p>
                      <div ng-repeat="site in sites | filterBy: ['station_id']: station.station_id: true | filter:{name: ''}" >
                         {{ site.name }}    {{ site.station_id }}
@@ -65,7 +66,7 @@
    <md-list-item ng-repeat="site in sites | fuzzyBy: 'name': search" class="">
 
     <div class="md-list-item-text">
-               <h3>{{site.name}}</h3>
+               <h3><ng-md-icon icon="local_parking"></ng-md-icon> {{site.name}}</h3>
                   <p>
                     {{site.open_time}}
                   </p>

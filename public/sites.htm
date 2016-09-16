@@ -1,18 +1,69 @@
-<md-content class="md-padding">
+ <style type="text/css">
+.full-heigth {
+    height: -moz-calc(100% - 164px); 
+    height: -webkit-calc(100% - 164px); 
+    height: calc(100% - 164px);
+}
+ </style>
 
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ items.length }}</span></h1>
-		</div>
+
+ <div class="full-heigth md-padding">
+      
+
+    <md-toolbar class="md-hue-2 md-whiteframe-z2">
+            <div class="md-toolbar-tools"><input type="text" style="min-width:30px" ng-model="search" placeholder="Suche" class=""/>
+        <br>
+    </div>
+
+    </md-toolbar>
+
+    <md-content style="height:100%">
+
+  <md-slider  style="width:100%" ng-model="quantity"  min="1" max="25" aria-label="rating" ng-model-options="{ debounce: 1000 }">
+      </md-slider>
+
+     <md-slider  style="width:100%" ng-model="price"  min="1" max="6" aria-label="rating" ng-model-options="{ debounce: 1000 }">
+      </md-slider>
 
 
+<section>
+   <md-subheader>Parkhäuser</md-subheader>
+   <md-list>
+   <md-list-item ng-repeat="site in sites | filter: greaterThan( price)  | fuzzyBy: 'name': search | limitTo:quantity" class="">
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
+    <div class="md-list-item-text">
+               <h3><ng-md-icon icon="local_parking"></ng-md-icon> {{::site.name == "" ? site.info : site.name}}</h3>
+                  <p>
+                    {{::site.open_time}} {{site.price_1h}}
+                  </p>
+               </div>
 
-{{ items }}
+               <md-menu class="md-secondary">
+                                       <ng-md-icon icon="menu"></ng-md-icon>
 
-			</div>
-		</div>
-		</md-content>
+                 <md-menu-content width="4">
+                    <md-menu-item>
+                      <md-button href="/charts/{{site.site_id}}">
+                        Details
+                     </md-button>
+                  </md-menu-item>
+                  <md-menu-item>
+                   <md-button>
+                     Navigieren
+                  </md-button>
+               </md-menu-item>
+               <md-menu-divider></md-menu-divider>
+               <md-menu-item>
+                <md-button>
+                  Notifications
+               </md-button>
+            </md-menu-item>
+         </md-menu-content>
+      </md-menu>
+
+
+      </md-list-item>
+   </md-list>
+</section>
+</md-content>
+</div>
