@@ -256,7 +256,7 @@ angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites'
 
 
             $scope.quantity = 10;
-            $scope.price = 5;
+            $scope.price = 2;
             // $scope.greaterThan = function(value, value2){
             //   console.log(value);
             //   return value2 < parseFloat(value);
@@ -295,7 +295,7 @@ angular.module('MyApp').controller('homeController',['$scope', '$rootScope', '$h
 console.log();
 
 $scope.nearest=[{}];
-$scope.nearest[0].name ="NEEED STAANDORTT!!";
+$scope.nearest[0].name ="Bitte Standort festlegen...";
 
   $rootScope.$watch('location.text', function(newValue, oldValue) {
     console.log(newValue);
