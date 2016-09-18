@@ -47,13 +47,18 @@
 <md-list style="width:100%">
         <md-subheader >10 nächsten Parkhäuser  <input type="range" name="points" id="points" value="50" min="0" max="100"></md-subheader>
         <md-list-item class="md-3-line" ng-repeat="near in nearest" ng-click="null" >
-          <div class="md-list-item-text" layout="column" style="padding-top:10px;padding-bottom:10px">
+          <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
+          <div flex=70>
             <h3>{{ near.name == "" ? near.info : near.name}}</h3>
             <h4>{{ near.bundesland }}</h4>
             <p ng-if="near.distance">Entfernung: {{ near.distance }}km </p>
             <p ng-if="near.price_1h">Tarif: | <span ng-if="near.price_20m" >20 Min - {{ near.price_20m }}€ | </span><span ng-if="near.price_30m" >30 Min - {{ near.price_30m }}€ | </span><span ng-if="near.price_1h" >1 Std - {{ near.price_1h }}€ | </span><span ng-if="near.price_1d" >1 Tag - {{ near.price_1d }}€ | </span><span ng-if="near.price_1w" >1 Woche - {{ near.price_1w }}€ | </span></p>
             <p ng-if="near.open_time">Öffnungszeiten: {{ near.open_time }}</p>
             <p ng-if="near.duration">Dauer: {{ near.duration }}</p>
+            </div>
+            <div flex=30 layout="column" layout-align="center center">
+            <p  ng-if="near.free">Freie Plätze: {{ near.free }}</p>
+            </div>
 
           </div>
                   <md-divider ng-if="!$last"></md-divider>

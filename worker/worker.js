@@ -97,7 +97,7 @@ models.sequelize.sync().then(function(){
 
 
 
-}, 2 * 60 * 1000); // 60 * 1000 milsec
+}, 60 * 1000); // 60 * 1000 milsec
 
 });
 
@@ -172,13 +172,51 @@ function updateAllocations(data,allocationExist) {
       console.log("allocation already exists");
     }else {
 
+
+
+      models.Site.find({
+        where: {
+          site_id:data.site.siteId
+        }
+      }).then(function(site){
+
+
+
+
   models.Allocation.create({
         site_id: data.site.siteId,
         category: data.allocation.category,
         timestamp: data.allocation.timeSegment
-      }).then(function(station){
+      }).then(function(allocation){
+
+
         console.log("added allocation");
+
+
+
+        site.setAllocations(allocation).then(function() {
+  console.log("saved!");
+});
+
+        site.updateAttributes({
+        free: allocation.category
+      }).then(function(station) {
+        console.log("updated price");
       });
+ 
+
+
+      });
+
+
+
+
+
+      });
+
+
+
+
     }
   }
 

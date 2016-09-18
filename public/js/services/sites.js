@@ -12,8 +12,8 @@ angular.module('MyApp')
                 return $http.get('/api/sites/'+id, { cache: true});
             };
 
-            Sites.getNearest = function(lat, long, n){
-                return $http.get('/api/sites/nearest?lat='+lat+'&long='+long, { cache: true});
+            Sites.getNearest = function(lat, long, limit){
+                return $http.get('/api/sites/nearest?lat='+lat+'&long='+long+'&limit='+limit, { cache: true});
             };
         return Sites;
     });

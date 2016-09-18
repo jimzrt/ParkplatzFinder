@@ -18,23 +18,34 @@ router.get('/api/stations', function(req, res){
 router.get('/api/sites/nearest', function(req, res){
     models.Site.findAll().then(function(sites){
 
-      if(req.query.lat != null && req.query.long != null){
+
+
+ 
+
+      if(req.query.lat != null && req.query.long != null && req.query.limit != null){
 
        for(var i=0; i < sites.length; i++){
         sites[i].dataValues.distance = distanceFromCurrent(req.query.lat, req.query.long, sites[i].dataValues.lat,sites[i].dataValues.long );
+
        }
 
      //  _.slice(array, [start=0], [end=array.length])
-       sites = _.slice(_.sortBy(sites, ['dataValues.distance']), 0, 10);
+       sites = _.slice(_.sortBy(sites, ['dataValues.distance']), 0, req.query.limit);
    //    sites = sites.splice[0,10];
 
       }
+
+
+
 
 
       
         res.json(sites);
       })
     });
+
+
+
 
 // convert degrees to radians
 Number.prototype.toRad = function() 

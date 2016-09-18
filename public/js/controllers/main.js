@@ -302,7 +302,7 @@ $scope.nearest[0].name ="Bitte Standort festlegen...";
      if(newValue){
      $scope.nearest[0].name ="Lade........";
 
-       Sites.getNearest($rootScope.location.lat, $rootScope.location.long, 1999).success(function(data){
+       Sites.getNearest($rootScope.location.lat, $rootScope.location.long, 10).success(function(data){
         $scope.nearest=data;
        });
 

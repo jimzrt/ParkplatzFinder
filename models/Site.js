@@ -19,15 +19,19 @@
      price_30m: DataTypes.DOUBLE,
      duration: DataTypes.STRING,
      name: DataTypes.STRING,
-     bundesland: DataTypes.STRING
+     bundesland: DataTypes.STRING,
+     free: DataTypes.INTEGER
      }, {
      classMethods: {
        associate: function(models) {
-         // associations can be defined here
-      //   Site.belongsTo(models.Station);
-     //    Site.hasMany(models.Allocation)
+
+        Site.hasMany(models.Allocation)
+
        }
      }
    });
    return Site;
+
+
+
  };
