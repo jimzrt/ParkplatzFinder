@@ -3,6 +3,27 @@
 angular.module('MyApp').controller('AppCtrl', function ($http, $scope, $rootScope, $location, $timeout, $mdSidenav, $log,  $window, geolocationSvc, $mdToast, $mdDialog, uiGmapGoogleMapApi) {
 
 
+$rootScope.catToFree = function(category){
+  switch(category){
+    case 0:
+      return "0";
+      break;
+    case 1:
+      return "0 - 10";
+      break;
+    case 2:
+      return "10 - 30";
+      break;
+    case 3:
+      return "30 - 50";
+      break;
+    case 4:
+      return "Mehr als 50";
+      break;
+    default:
+      return "Unbekannt";
+  }
+}
 
 //$scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
 angular.extend($scope, {
@@ -255,8 +276,10 @@ $scope.toggleSidenav = function(menuId) {
 angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
 
 
+           $scope.search=[];
             $scope.quantity = 10;
             $scope.price = 2;
+
             // $scope.greaterThan = function(value, value2){
             //   console.log(value);
             //   return value2 < parseFloat(value);
@@ -298,7 +321,6 @@ $scope.nearest=[{}];
 $scope.nearest[0].name ="Bitte Standort festlegen...";
 
   $rootScope.$watch('location.text', function(newValue, oldValue) {
-    console.log(newValue);
      if(newValue){
      $scope.nearest[0].name ="Lade........";
 

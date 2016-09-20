@@ -23,22 +23,35 @@
 
      <md-slider  style="" ng-model="price"  min="1" max="6" aria-label="rating" ng-model-options="{ debounce: 500 }">
       </md-slider>
+      <input type="checkbox" data-ng-model='search.free' data-ng-true-value="free: '!!'" data-ng-false-value='' /> Nur mit Angabe freier Plätze 
+
 
 
 <section>
    <md-subheader>Parkhäuser</md-subheader>
    <md-list>
-   <md-list-item ng-repeat="site in sites | filter: greaterThan( price)  | fuzzyBy: 'name': search | limitTo:quantity" class="">
+   <md-list-item ng-repeat="site in sites | filter: greaterThan( price) | filter: search.free | fuzzyBy: 'name': search | limitTo:quantity"  class="md-3-line">
 
-    <div class="md-list-item-text">
-               <h3><ng-md-icon icon="local_parking"></ng-md-icon> {{::site.name == "" ? site.info : site.name}}</h3>
-                  <p>
-                    {{::site.open_time}} {{site.price_1h}} {{site.free}}
-                  </p>
+    <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
+
+
+<div flex=70>
+            <h3><ng-md-icon icon="local_parking" style="fill: #FFF"></ng-md-icon>{{ site.name == "" ? site.info : site.name}}</h3>
+            <h4>{{ site.bundesland }}</h4>
+            <p ng-if="site.distance">Entfernung: {{ site.distance }}km </p>
+            <p ng-if="site.price_1h">Tarif: | <span ng-if="site.price_20m" >20 Min - {{ site.price_20m }}€ | </span><span ng-if="site.price_30m" >30 Min - {{ site.price_30m }}€ | </span><span ng-if="site.price_1h" >1 Std - {{ site.price_1h }}€ | </span><span ng-if="site.price_1d" >1 Tag - {{ site.price_1d }}€ | </span><span ng-if="site.price_1w" >1 Woche - {{ site.price_1w }}€ | </span></p>
+            <p ng-if="site.open_time">Öffnungszeiten: {{ site.open_time }}</p>
+            <p ng-if="site.duration">Dauer: {{ site.duration }}</p>
+            </div>
+            <div flex=30 layout="column" layout-align="center center">
+            <p  ng-if="site.free">Freie Plätze: {{ catToFree(site.free) }}</p>
+            </div>
+
+
                </div>
 
                <md-menu class="md-secondary">
-                                       <ng-md-icon icon="menu"></ng-md-icon>
+                                       <ng-md-icon icon="menu" style="fill: #FFF"></ng-md-icon>
 
                  <md-menu-content width="4">
                     <md-menu-item>
