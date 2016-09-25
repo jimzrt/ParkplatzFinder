@@ -1,0 +1,95 @@
+  <style type="text/css">
+.full-heigth {
+    height: -moz-calc(100vh - 164px); 
+    height: -webkit-calc(100vh - 164px); 
+    height: calc(100vh - 164px);
+}
+ </style>
+
+
+
+
+  <md-content class="md-padding" layout-xs="column" layout="row">
+
+
+
+    <div  layout="column">
+    <div>
+<md-card  style="height:150px;"  ng-click="showPrerenderedDialog()">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Standort auf Karte festlegen</span>
+          </md-card-title-text>
+          <md-card-title-media>
+           <ng-md-icon icon='satellite' style="fill: #FFF" size="64"></ng-md-icon>
+          </md-card-title-media>
+        </md-card-title>
+
+      </md-card>
+
+
+<md-card style="height:150px;"  ng-click="getCurrent()" > 
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Standort per GPS festlegen</span>
+          </md-card-title-text>
+          <md-card-title-media>
+           <ng-md-icon icon='gps_fixed' style="fill: #FFF" size="64"></ng-md-icon>
+          </md-card-title-media>
+        </md-card-title>
+      </md-card>
+      </div>
+
+    </div>
+
+<div  layout="column" style="width:100%">
+   <md-content style="height:400px;">
+<md-list style="width:100%">
+        <md-subheader >10 nächsten Parkhäuser  <input type="range" name="points" id="points" value="50" min="0" max="100"></md-subheader>
+        <md-list-item class="md-3-line" ng-repeat="near in nearest" ng-click="null" >
+          <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
+          <div flex=70>
+            <h3>{{ near.name == "" ? near.info : near.name}}</h3>
+            <h4>{{ near.bundesland }}</h4>
+            <p ng-if="near.distance">Entfernung: {{ near.distance }}km </p>
+            <p ng-if="near.price_1h">Tarif: | <span ng-if="near.price_20m" >20 Min - {{ near.price_20m }}€ | </span><span ng-if="near.price_30m" >30 Min - {{ near.price_30m }}€ | </span><span ng-if="near.price_1h" >1 Std - {{ near.price_1h }}€ | </span><span ng-if="near.price_1d" >1 Tag - {{ near.price_1d }}€ | </span><span ng-if="near.price_1w" >1 Woche - {{ near.price_1w }}€ | </span></p>
+            <p ng-if="near.open_time">Öffnungszeiten: {{ near.open_time }}</p>
+            <p ng-if="near.duration">Dauer: {{ near.duration }}</p>
+            </div>
+            <div flex=30 layout="column" layout-align="center center">
+            <p  ng-if="near.free">Freie Plätze: {{ catToFree(near.free) }}</p>
+            </div>
+
+          </div>
+                  <md-divider ng-if="!$last"></md-divider>
+
+        </md-list-item>
+       
+      </md-list> 
+      </md-content>
+<div >
+    I'm below on mobile, and to the right on larger devices.
+    </div>
+<div >
+HALLO
+
+</div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+</md-content>
+<!-- <style type="text/css">
+	.angular-google-map-container { height: 400px; }
+
+</style>
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" events="map.events">
+        <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>
+    </ui-gmap-google-map> -->
