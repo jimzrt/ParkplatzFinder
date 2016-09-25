@@ -11,7 +11,7 @@
 	<!-- SCROLLS -->
 
 <style type="text/css">
-  .angular-google-map-container { height: 70vh; width: 70vw;}
+  .angular-google-map-container { height: 60vh; width: 70vw;}
 
 
   .md-button.md-default-theme.md-focused:not([disabled]), .md-button.md-focused:not([disabled]) {
@@ -47,17 +47,17 @@
 <script src='/bower_components/lodash/dist/lodash.min.js'></script>
 <script src='/bower_components/angular-simple-logger/dist/angular-simple-logger.min.js'></script>
 <script src='/bower_components/angular-google-maps/dist/angular-google-maps.min.js'></script>
-<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+<!-- <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+ -->
 
-
-
-
-
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 
 
 
 
 	<script src="js/core.js"></script> <!-- load our main application -->
+		    <script src="js/directives/ngAutocomplete.js"></script>
+
 	<script src="js/services/stations.js"></script> <!-- load our todo service -->
 	<script src="js/services/sites.js"></script> <!-- load our todo service -->
 	<script src="js/services/allocations.js"></script> <!-- load our todo service -->
@@ -66,6 +66,8 @@
 	<script src="js/filter/filter.js"></script> <!-- load our todo service -->
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+
+
 
 </head>
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
@@ -147,6 +149,19 @@
               <ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" draggable="true" events="map.events">
         <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>
     </ui-gmap-google-map>
+
+    <form id="form" role="form" name="but">
+
+
+
+  <div class="form-group move-down">
+    <label for="Autocomplete2">Suche: </label>
+    <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details"/>
+
+
+  </div>
+
+</form>
       </md-dialog-content>
       <md-dialog-actions>
         <md-button ng-click="closeDialog()" class="md-primary">

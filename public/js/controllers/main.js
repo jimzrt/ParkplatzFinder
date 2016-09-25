@@ -58,7 +58,6 @@ angular.extend($scope, {
 
   var alert;
     $scope.showAlert = showAlert;
-       $scope.showDialog = showDialog;
     $scope.items = [1, 2, 3];
 
     // Internal method
@@ -97,42 +96,8 @@ angular.extend($scope, {
         }
 };
 
-function showDialog($event) {
 
-
-
-
-       var parentEl = angular.element(document.body);
-       $mdDialog.show({
-         parent: parentEl,
-         targetEvent: $event,
-         template:
-           '<md-dialog aria-label="List dialog">' +
-           '  <md-dialog-content>'+
-               '<ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" draggable="true" events="map.events">'+
-        '<ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>'+
-    '</ui-gmap-google-map>'+
-           '  </md-dialog-content>' +
-           '  <md-dialog-actions>' +
-           '    <md-button ng-click="closeDialog()" class="md-primary">' +
-           '      Close Dialog' +
-           '    </md-button>' +
-           '  </md-dialog-actions>' +
-           '</md-dialog>',
-         locals: {
-           items: $scope.items
-         },
-         controller: DialogController
-      });
-      function DialogController($scope, $mdDialog, items) {
-        $scope.items = items;
-        $scope.closeDialog = function() {
-          $mdDialog.hide();
-        }
-      }
-
-         
-    }
+    
   
 
     
@@ -166,7 +131,7 @@ $scope.getCurrent = function(){
 
 
 $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + long + '&language=en').success(function(mapData) {
-  $rootScope.location.text = mapData.results[0].address_components[2].long_name + ", " + mapData.results[0].address_components[6].long_name;
+  $rootScope.location.text = mapData.results[1].formatted_address ;
   $rootScope.location.lat = lat;
    $rootScope.location.long = long;
 
@@ -259,6 +224,73 @@ $scope.toggleSidenav = function(menuId) {
 
 })[0];
     };
+
+
+
+
+
+
+
+    $scope.result = ''
+//    $scope.details = ''
+      $scope.options = {};
+
+      $scope.options.watchEnter = true;
+
+
+   //     $scope.options.types = '(cities)';
+
+
+
+
+$scope.$watch('details.geometry.location', function(newValue, oldValue) {
+  if($scope.details != undefined){
+ $scope.map.markers.pop();
+                var lat = $scope.details.geometry.location.lat(),lon = $scope.details.geometry.location.lng();
+                var marker = {
+                    id: Date.now(),
+                    coords: {
+                        latitude: lat,
+                        longitude: lon
+                    }
+                };
+                 $scope.map.center =  {
+                latitude: lat,
+                longitude:lon
+            },
+                $scope.map.markers.push(marker);
+              }
+
+
+ // console.log($scope.details.geometry.location.lat());
+});
+
+$scope.$watch('location.lat', function(newValue, oldValue) {
+  if($rootScope.location.lat != undefined){
+    $scope.map.markers.pop();
+                var lat = $rootScope.location.lat,lon = $rootScope.location.long;
+                var marker = {
+                    id: Date.now(),
+                    coords: {
+                        latitude: lat,
+                        longitude: lon
+                    }
+                };
+                 $scope.map.center =  {
+                latitude: lat,
+                longitude:lon
+            },
+                $scope.map.markers.push(marker);
+              }
+
+  
+
+
+});
+
+
+
+
 
 
 
