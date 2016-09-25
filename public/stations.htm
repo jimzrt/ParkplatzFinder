@@ -1,0 +1,60 @@
+<!-- <div ng-repeat="property in props" ng-init="filter[property] = {}">
+    <h3>{{ property }}</h3>
+    <div class="quarter" ng-repeat="value in getValuesFor(property)">
+      <label>
+        <input type="checkbox" ng-model="filter[property][value]" />
+        {{ value }}
+      </label>
+    </div>
+    <hr />
+  </div> -->
+
+
+<md-content  class="md-padding">
+<div layout="row">
+
+<md-content  class="md-padding">
+    <h3>Freie Plätze </h3>
+    <div ng-repeat="value in getValuesFor('free')">
+    <md-checkbox  ng-model="filter['free'][value]" aria-label="Checkbox 1">
+{{ catToFree(value) }}	
+          </md-checkbox>
+
+
+        
+    </div>
+    <hr />
+  <div>
+</div>
+</md-content>
+<md-content  class="md-padding">
+    <h3>Preis 1h </h3>
+    <div ng-repeat="value in getValuesFor('price_1h')">
+        <md-checkbox  type="checkbox" ng-model="filter['price_1h'][value]" />
+        {{ !value  ? 'Unbekannt' : value }}
+        </md-checkbox>
+    </div>
+    <hr />
+  <div>
+</div>
+</md-content>
+<md-content  class="md-padding">
+    <h3>Preis 1d </h3>
+    <div ng-repeat="value in getValuesFor('price_1d')">
+        <md-checkbox   type="checkbox" ng-model="filter['price_1d'][value]" />
+        {{ !value  ? 'Unbekannt' : value }}
+        </md-checkbox>
+    </div>
+    <hr />
+  <div>
+</div>
+</md-content>
+
+  </div>
+    <h3>Available Wines</h3>
+    <div ng-repeat="wine in (wines | filter:filterByProperties) as filteredWines">
+      {{ wine.name != "" ? wine.name : wine.info }} <i>({{ wine.category }})</i>
+    </div>
+    <hr />
+    <b>Number of results: {{ filteredWines.length }}</b>
+</md-content>

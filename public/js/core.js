@@ -8,6 +8,11 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl : "home.htm",
         controller : "homeController"
     })
+    .when("/stations", {
+        templateUrl : "stations.htm",
+        controller: "stationsController"
+
+    })
     .when("/sites", {
         templateUrl : "sites.htm",
         controller: "sitesController"

@@ -23,14 +23,14 @@
 
      <md-slider  style="" ng-model="price"  min="1" max="6" aria-label="rating" ng-model-options="{ debounce: 500 }">
       </md-slider>
-      <input type="checkbox" data-ng-model='search.free' data-ng-true-value="free: '!!'" data-ng-false-value='' /> Nur mit Angabe freier Plätze 
+      <input type="checkbox" data-ng-model='searching.free' data-ng-true-value='1' data-ng-false-value='' /> Nur mit Angabe freier Plätze 
 
 
 
 <section>
    <md-subheader>Parkhäuser</md-subheader>
    <md-list>
-   <md-list-item ng-repeat="site in sites | filter: greaterThan( price) | filter: search.free | fuzzyBy: 'name': search | limitTo:quantity"  class="md-3-line">
+   <md-list-item ng-repeat="site in sites | filter: greaterThan( price) | filter: searching.free | fuzzyBy: 'name': search | limitTo:quantity"  class="md-3-line">
 
     <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
 

@@ -270,13 +270,82 @@ $scope.toggleSidenav = function(menuId) {
 
 
 
+angular.module('MyApp').controller('stationsController',['$rootScope','$scope', '$http', 'Sites', function($rootScope, $scope, $http, Sites) {
 
+  $scope.props = ["name", "bundesland", "free"];
+
+
+             Sites.getAll().success(function(dataSite) {
+            
+
+           //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
+            //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
+
+
+             $scope.wines = dataSite;
+
+
+
+            
+  });
+
+
+  // Variables - Public
+  $scope.filter = {};
+/*  $scope.wines = [
+    {name: 'Wine A', category: 'red'},
+    {name: 'Wine B', category: 'red'},
+    {name: 'Wine C', category: 'white'},
+    {name: 'Wine D', category: 'red'},
+    {name: 'Wine E', category: 'red'},
+    {name: 'Wine F', category: 'white'},
+    {name: 'Wine G', category: 'champagne'},
+    {name: 'Wine H', category: 'champagne'}    
+  ];*/
+  
+  // Functions - Public
+  $scope.filterByProperties = filterByProperties;
+  $scope.getValuesFor = getValuesFor;
+  
+  // Functions - Definitions
+  function filterByProperties(wine) {
+    var activeFilterProps = Object.
+      keys($scope.filter).
+      filter(function (prop) { return !noFilter($scope.filter[prop]); });
+
+    // Use this snippet for matching with AND
+    return activeFilterProps.
+      every(function (prop) { return $scope.filter[prop][wine[prop]]; });
+    // Use this snippet for matching with OR
+    //return !activeFilterProps.length || activeFilterProps.
+    //  some(function (prop) { return $scope.filter[prop][wine[prop]]; });
+  }
+    
+  function getValuesFor(prop) {
+    return ($scope.wines || []).
+      map(function (wine) { return wine[prop]; }).
+      filter(function (value, idx, arr) { return arr.indexOf(value) === idx; }).sort(function(a, b) {
+  return a - b;
+});
+  }
+
+  function noFilter(filterObj) {
+    return Object.
+      keys(filterObj).
+      every(function (key) { return !filterObj[key]; });
+  }
+
+
+
+  
+
+}]);
 
 
 angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
 
 
-           $scope.search=[];
+           $scope.filter={};
             $scope.quantity = 10;
             $scope.price = 2;
 
@@ -462,15 +531,15 @@ Sites.getAll().success(function(data) {
  angular.module('MyApp').controller('DemoCtrl', DemoCtrl);
 
   function DemoCtrl ($timeout, $q, $log) {
-    var self = this;
+    var $scope = this;
 
-    self.simulateQuery = false;
-    self.isDisabled    = false;
+    $scope.simulateQuery = false;
+    $scope.isDisabled    = false;
 
-    self.repos         = loadAll();
-    self.querySearch   = querySearch;
-    self.selectedItemChange = selectedItemChange;
-    self.searchTextChange   = searchTextChange;
+    $scope.repos         = loadAll();
+    $scope.querySearch   = querySearch;
+    $scope.selectedItemChange = selectedItemChange;
+    $scope.searchTextChange   = searchTextChange;
 
     // ******************************
     // Internal methods
@@ -481,9 +550,9 @@ Sites.getAll().success(function(data) {
      * remote dataservice call.
      */
     function querySearch (query) {
-      var results = query ? self.repos.filter( createFilterFor(query) ) : self.repos,
+      var results = query ? $scope.repos.filter( createFilterFor(query) ) : $scope.repos,
           deferred;
-      if (self.simulateQuery) {
+      if ($scope.simulateQuery) {
         deferred = $q.defer();
         $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
         return deferred.promise;
