@@ -132,7 +132,7 @@
           
           <span flex></span>
           <span class="md-body-1">Standort: {{location.text}}</span>
-          <ng-md-icon  ng-click="getCurrent()" icon='gps_fixed'></ng-md-icon> <ng-md-icon icon='satellite' ng-click="showPrerenderedDialog()"></ng-md-icon>
+          <ng-md-icon  ng-click="getCurrent()" icon='gps_fixed' style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: outset;"></ng-md-icon> <ng-md-icon icon='satellite' ng-click="showPrerenderedDialog()" style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: outset;"></ng-md-icon>
 <!--           <md-button aria-label="Search" ng-click="showSearch = !showSearch">
             <ng-md-icon icon="search"></ng-md-icon>
           </md-button> -->
@@ -155,9 +155,13 @@
 
 
   <div class="form-group move-down">
-    <label for="Autocomplete2">Suche: </label>
-    <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details"/>
+  <md-input-container style="width:70%" >
+ <label for="Autocomplete2">Suche: </label>
+    <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details" placeholder="Geben Sie hier einen Standort ein" />
 
+      </md-input-container>
+
+   
 
   </div>
 
