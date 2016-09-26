@@ -37,10 +37,10 @@ app.config(function($mdThemingProvider) {
     .accentPalette('blue').dark();
 
 
-    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey');
   $mdThemingProvider.theme('dark-orange').backgroundPalette('grey');
-  $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
-  $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+  $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple');
+  $mdThemingProvider.theme('dark-blue').backgroundPalette('blue');
 });
 
 
