@@ -1,6 +1,6 @@
 
 
-var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter",'ngMdIcons', 'uiGmapgoogle-maps']);
+var app = angular.module('MyApp', ["ngRoute", "ngMaterial", "nvd3","angular.filter",'ngMdIcons', 'uiGmapgoogle-maps', 'angular-loading-bar']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
