@@ -22,7 +22,7 @@ router.get('/api/sites/nearest', function(req, res){
 
  
 
-      if(req.query.lat != null && req.query.long != null && req.query.limit != null){
+      if(req.query.lat != null && req.query.long != null){
 
        for(var i=0; i < sites.length; i++){
         sites[i].dataValues.distance = distanceFromCurrent(req.query.lat, req.query.long, sites[i].dataValues.lat,sites[i].dataValues.long );
@@ -30,8 +30,12 @@ router.get('/api/sites/nearest', function(req, res){
        }
 
      //  _.slice(array, [start=0], [end=array.length])
-       sites = _.slice(_.sortBy(sites, ['dataValues.distance']), 0, req.query.limit);
+       sites = _.sortBy(sites, ['dataValues.distance']);
    //    sites = sites.splice[0,10];
+
+      if(req.query.limit){
+       sites =  _.slice(sites, 0, req.query.limit);
+      }
 
       }
 

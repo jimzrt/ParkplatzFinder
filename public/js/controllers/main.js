@@ -374,7 +374,7 @@ angular.module('MyApp').controller('stationsController',['$rootScope','$scope', 
 }]);
 
 
-angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites', function($scope, $http, Sites) {
+angular.module('MyApp').controller('sitesController',['$rootScope', '$scope', '$http', 'Sites', function($rootScope, $scope, $http, Sites) {
 
 
            $scope.filter={};
@@ -393,22 +393,52 @@ angular.module('MyApp').controller('sitesController',['$scope', '$http', 'Sites'
 };
 
 
-
+  if(!$rootScope.located){
              Sites.getAll().success(function(dataSite) {
             
-
-           //     var stations = dataStation.map(function(a) {return a.name;}).filter(Boolean).sort();
-            //    var sites = dataSite.map(function(a) {return a.name;}).filter(Boolean).sort();
-
-
              $scope.sites = dataSite;
-
-
 
             
   });
 
-  
+
+  }
+
+
+
+  $rootScope.$watch('location.text', function(newValue, oldValue) {
+     if(newValue){
+
+
+    $scope.sites=[{}];
+     $scope.sites[0].name ="Lade........";
+
+       Sites.getNearest($rootScope.location.lat, $rootScope.location.long, -1).success(function(dataSite){
+        $scope.sites=dataSite;
+       });
+
+
+
+     };
+   // var someVar = [Do something with someVar];
+
+    // angular copy will preserve the reference of $scope.someVar
+    // so it will not trigger another digest 
+//    angular.copy(someVar, $scope.someVar);
+
+});
+
+
+
+
+
+
+
+
+
+
+
+   
 
 }]);
 
@@ -423,6 +453,7 @@ $scope.nearest[0].name ="Bitte Standort festlegen...";
 
   $rootScope.$watch('location.text', function(newValue, oldValue) {
      if(newValue){
+    $scope.nearest=[{}];
      $scope.nearest[0].name ="Lade........";
 
        Sites.getNearest($rootScope.location.lat, $rootScope.location.long, 10).success(function(data){

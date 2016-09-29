@@ -11,9 +11,9 @@
 
   <md-content class="md-padding" layout-xs="column" layout="row">
 
-<div  layout="column" style="width:100%">
-   <md-content style="height:600px;">
-<md-list style="width:100%">
+<div  layout="column" style="width:95%" ng-if="location.text">
+   <md-content style="height:400px;overflow-y:scroll;">
+<md-list style="width:100%;">
         <md-subheader >10 nächsten Parkhäuser  </md-subheader>
         <md-list-item class="md-3-line" ng-repeat="near in nearest" ng-click="null" >
           <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
@@ -36,19 +36,12 @@
        
       </md-list> 
       </md-content>
-<div >
-    I'm below on mobile, and to the right on larger devices.
-    </div>
-<div >
-HALLO
-
-</div>
 
 
 
     </div>
 
-    <div  layout="column">
+    <div  layout="row"  layout-xs="column" ng-if="!location.text" style="width:90%">
     <div>
 <md-card  style="height:150px;"  ng-click="showPrerenderedDialog()">
         <md-card-title>
@@ -73,6 +66,20 @@ HALLO
           </md-card-title-media>
         </md-card-title>
       </md-card>
+      </div>
+      <div layout="column" class="md-padding" style="width:90%" >
+     
+      <h1  layout="row" layout-align="center auto">Finden Sie das ideale Parkhaus in Ihrer Nähe</h1>
+      <p>
+        Legen Sie dafür bitte Ihren Standort über eine der beiden Möglichkeiten aus.<br>
+        Möchten Sie Auskunft über Parkplätze in einem bestimmten Ort, so können Sie diesen einfach über die Karte festlegen.
+       </p>
+       <p>
+       Sie haben über die zwei Schaltflächen oben-rechts immer die Möglichkeit, den Standort nachträglich zu verändern.
+       </p>
+       <p>
+       Der Standort wird nur benötigt, um die Entfernung der Parkhäuser anzugeben und diese danach zu sortieren. Alle anderen Funktionen sind unabhängig davon.
+       </p>
       </div>
 
     </div>

@@ -13,7 +13,12 @@ angular.module('MyApp')
             };
 
             Sites.getNearest = function(lat, long, limit){
-                return $http.get('/api/sites/nearest?lat='+lat+'&long='+long+'&limit='+limit, { cache: true});
+                if(limit == -1){
+                    return $http.get('/api/sites/nearest?lat='+lat+'&long='+long, { cache: true});
+                } else {
+                   return $http.get('/api/sites/nearest?lat='+lat+'&long='+long+'&limit='+limit, { cache: true});
+
+                }
             };
         return Sites;
     });

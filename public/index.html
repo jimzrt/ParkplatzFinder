@@ -129,11 +129,11 @@
         <div class="md-toolbar-tools">
           <ng-md-icon icon="menu" ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu"></ng-md-icon>
 
-           <ng-md-icon icon="{{getActive().icon}}" ></ng-md-icon>
+          <ng-md-icon icon="{{getActive().icon}}" hide show-gt-md style="padding-right:5px">123</ng-md-icon> <h4> {{getActive().title}} </h4>
           
           <span flex></span>
           <span class="md-body-1">Standort: {{location.text}}</span>
-          <ng-md-icon  ng-click="getCurrent()" icon='gps_fixed' style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: outset;"></ng-md-icon> <ng-md-icon icon='satellite' ng-click="showPrerenderedDialog()" style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: outset;"></ng-md-icon>
+          <ng-md-icon  ng-click="getCurrent()" icon='gps_fixed' style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: solid;"></ng-md-icon> <ng-md-icon icon='satellite' ng-click="showPrerenderedDialog()" style="margin-left:5px;margin-right:5px;padding:5px;padding-right:5px;border-width: 1px;border-style: solid;"></ng-md-icon>
 <!--           <md-button aria-label="Search" ng-click="showSearch = !showSearch">
             <ng-md-icon icon="search"></ng-md-icon>
           </md-button> -->
