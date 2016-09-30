@@ -296,7 +296,6 @@ $scope.$watch('location.lat', function(newValue, oldValue) {
 
 
 
-
   });
  
 

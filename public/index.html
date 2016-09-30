@@ -11,7 +11,7 @@
 	<!-- SCROLLS -->
 
 <style type="text/css">
-  .angular-google-map-container { height: 60vh; width: 70vw;}
+  .angular-google-map-container { height: 70%; }
 
 
   .md-button.md-default-theme.md-focused:not([disabled]), .md-button.md-focused:not([disabled]) {
@@ -144,9 +144,9 @@
 
 
 <div style="visibility: hidden">
-  <div class="md-dialog-container" id="myStaticDialog">
-         <md-dialog aria-label="List dialog">
-            <md-dialog-content>
+  <div class="md-dialog-container" id="myStaticDialog" >
+         <md-dialog aria-label="List dialog" flex="95">
+            <md-dialog-content"  >
               <ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" draggable="true" events="map.events">
         <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"></ui-gmap-marker>
     </ui-gmap-google-map>
@@ -156,9 +156,9 @@
 
 
   <div class="form-group move-down">
-  <md-input-container style="width:70%" >
+  <md-input-container style="width:90%" >
  <label for="Autocomplete2">Suche: </label>
-    <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details" placeholder="Geben Sie hier einen Standort ein" />
+    <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details"  />
 
       </md-input-container>
 
