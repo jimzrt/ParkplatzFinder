@@ -1,81 +1,180 @@
- <style type="text/css">
+<style type="text/css">
 .full-heigth {
-    height: -moz-calc(100vh - 164px); 
-    height: -webkit-calc(100vh - 164px); 
+    height: -moz-calc(100vh - 164px);
+    height: -webkit-calc(100vh - 164px);
     height: calc(100vh - 164px);
 }
- </style>
 
- <div class="full-heigth md-padding">
-      
+.accordion .ui-accordion-content {
+    background: none;
+    color: inherit;
+}
 
-    <md-toolbar class="md-hue-2 md-whiteframe-z2">
-            <div class="md-toolbar-tools"><input type="text" style="min-width:30px" ng-model="search" placeholder="Suche" class=""/>
-        <br>
-    </div>
+.accordion .ui-accordion-header {
+    background-color: #C62828;
+    border-width: 0px;
+    margin: 0px;
+    color: #FFF;
+    font-size: 20px;
+}
 
-    </md-toolbar>
+.accordion .md-label {
+    margin-top: 5px;
+}
 
+.noborder .ui-accordion-header {
+    background: none;
+    background-color: transparent;
+    padding-left: 0px;
+}
+
+.noborder .ui-accordion-content {
+    border-width: 0px;
+}
+
+.noborder *:focus {
+    outline: none;
+}
+</style>
+<div class="full-heigth md-padding">
     <md-content style="height:100%">
-    	
-  <md-slider  style="" ng-model="quantity"  min="1" max="25" aria-label="rating" ng-model-options="{ debounce: 500 }">
-      </md-slider>
-
-     <md-slider  style="" ng-model="price"  min="1" max="6" aria-label="rating" ng-model-options="{ debounce: 500 }">
-      </md-slider>
-      <input type="checkbox" data-ng-model='searching.free' data-ng-true-value='1' data-ng-false-value='' /> Nur mit Angabe freier Plätze 
-
-
-
-<section>
-   <md-subheader>Parkhäuser</md-subheader>
-   <md-list>
-   <md-list-item ng-repeat="site in sites | filter: greaterThan( price) | filter: searching.free | fuzzyBy: 'name': search | limitTo:quantity"  class="md-3-line">
-
-    <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
-
-
-<div flex=70>
-            <h3><ng-md-icon icon="local_parking" style="fill: #FFF"></ng-md-icon>{{ site.name == "" ? site.info : site.name}}</h3>
-            <h4>{{ site.bundesland }}</h4>
-            <p ng-if="site.distance">Entfernung: {{ site.distance }}km </p>
-            <p ng-if="site.price_1h">Tarif: | <span ng-if="site.price_20m" >20 Min - {{ site.price_20m }}€ | </span><span ng-if="site.price_30m" >30 Min - {{ site.price_30m }}€ | </span><span ng-if="site.price_1h" >1 Std - {{ site.price_1h }}€ | </span><span ng-if="site.price_1d" >1 Tag - {{ site.price_1d }}€ | </span><span ng-if="site.price_1w" >1 Woche - {{ site.price_1w }}€ | </span></p>
-            <p ng-if="site.open_time">Öffnungszeiten: {{ site.open_time }}</p>
-            <p ng-if="site.duration">Dauer: {{ site.duration }}</p>
+        <div class="accordion">
+            <h3>Filter</h3>
+            <div>
+                <md-checkbox>
+                    <div layout="row">
+                        Im Umkreis von
+                        <md-select ng-model="weapon" style="margin-top:0px;margin-bottom:0px;margin-left:5px;margin-right:5px">
+                            <md-option value="axe">5 km</md-option>
+                            <md-option value="sword">10 km</md-option>
+                            <md-option value="wand">15 km</md-option>
+                            <md-option value="pen">20 km</md-option>
+                            <md-option value="pens">30 km</md-option>
+                            <md-option value="pdens">50 km</md-option>
+                        </md-select> suchen
+                    </div>
+                </md-checkbox>
+                <div class="accordion noborder">
+                    <h3 style="font-size: 18px;">Preise filtern</h3>
+                    <div>
+                        <div layout="row">
+                            <md-checkbox ng-model="filterdata.price1hEnabled">
+                                Eine Stunde bis </md-checkbox>
+                            <md-select ng-model="filterdata.price.p1h" style="margin: 0px 10px 0px 10px;padding: 0px 5px 10px 5px">
+                                <md-option ng-repeat="price1h in price1hOptions" ng-value="price1h.value"> {{price1h.name}} </md-option>
+                            </md-select>
+                        </div>
+                        <br>
+                        <div layout="row">
+                            <md-checkbox ng-model="filterdata.price1dEnabled">
+                                Ein Tag bis </md-checkbox>
+                            <md-select ng-model="filterdata.price.p1d" style="margin: 0px 10px 0px 10px;padding: 0px 5px 10px 5px">
+                                <md-option ng-repeat="price1d in price1dOptions" ng-value="price1d.value"> {{price1d.name}} </md-option>
+                            </md-select>
+                        </div>
+                        <br>
+                        <div layout="row">
+                            <md-checkbox ng-model="filterdata.price1wEnabled">
+                                Eine Woche bis </md-checkbox>
+                            <md-select ng-model="filterdata.price.p1w" style="margin: 0px 10px 0px 10px;padding: 0px 5px 10px 5px">
+                                <md-option ng-repeat="price1w in price1wOptions" ng-value="price1w.value"> {{price1w.name}} </md-option>
+                            </md-select>
+                        </div>
+                                  <br>
+           <md-checkbox ng-model="filterdata.priceUnknown">
+           Unbekannte/Keine Angabe
+           </md-checkbox>
+                    </div>
+                </div>
+                <div class="accordion noborder">
+                    <h3 style="font-size: 18px;">Freie Plätze</h3>
+                    <div>
+                        <md-checkbox>
+                            <div layout="row">
+                                Mindestens
+                                <md-select ng-model="weapon" style="margin-top:0px;margin-bottom:0px;margin-left:5px;margin-right:5px">
+                                    <md-option value="axe">0,50 €</md-option>
+                                    <md-option value="sword">1 €</md-option>
+                                    <md-option value="wand">2 €</md-option>
+                                    <md-option value="pen">3 €</md-option>
+                                    <md-option value="pens">5 €</md-option>
+                                    <md-option value="pdens">10 €</md-option>
+                                </md-select> freie Plätze
+                            </div>
+                        </md-checkbox>
+                        <br>
+                        <md-checkbox>
+                            Unbekannte/Keine Angabe
+                        </md-checkbox>
+                    </div>
+                </div>
             </div>
-            <div flex=30 layout="column" layout-align="center center">
-            <p  ng-if="site.free">Freie Plätze: {{ catToFree(site.free) }}</p>
-            </div>
-
-
-               </div>
-
-               <md-menu class="md-secondary">
-                                       <ng-md-icon icon="menu" style="fill: #FFF"></ng-md-icon>
-
-                 <md-menu-content width="4">
-                    <md-menu-item>
-                      <md-button href="/charts/{{site.site_id}}">
-                        Details
-                     </md-button>
-                  </md-menu-item>
-                  <md-menu-item>
-                   <md-button>
-                     Navigieren
-                  </md-button>
-               </md-menu-item>
-               <md-menu-divider></md-menu-divider>
-               <md-menu-item>
-                <md-button>
-                  Notifications
-               </md-button>
-            </md-menu-item>
-         </md-menu-content>
-      </md-menu>
-
-
-      </md-list-item>
-   </md-list>
-</section>
-</md-content>
+        </div>
+        <div layout="row" class="md-padding">
+            Sortieren nach
+            <md-select ng-model="weapon" style="margin-top:0px;margin-bottom:0px;margin-left:5px;margin-right:5px">
+                <md-option value="axe">0,50 €</md-option>
+                <md-option value="sword">1 €</md-option>
+                <md-option value="wand">2 €</md-option>
+                <md-option value="pen">3 €</md-option>
+                <md-option value="pens">5 €</md-option>
+                <md-option value="pdens">10 €</md-option>
+            </md-select>
+            Ergebnisse: {{filterdSites.length}}
+        </div>
+        <!--  <md-slider  style="" ng-model="quantity"  min="1" max="25" aria-label="rating" ng-model-options="{ debounce: 500 }">
+      </md-slider>
+ -->
+        <!--      <md-slider  style="" ng-model="filterdata.price"  min="1" max="6" aria-label="rating" ng-model-options="{ debounce: 500 }">
+      </md-slider> -->
+        <section>
+            <md-list>
+                <md-list-item ng-repeat="site in filterdSites = (sites | filter: priceFilter( filterdata.price, '1h') | filter: searching.free | limitTo:quantity)" class="md-3-line">
+                    <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
+                        <div flex=70>
+                            <h3><ng-md-icon icon="local_parking" style="fill: #FFF"></ng-md-icon>{{ site.name == "" ? site.info : site.name}}</h3>
+                            <h4>{{ site.bundesland }}</h4>
+                            <p ng-if="site.distance">Entfernung: {{ site.distance }}km </p>
+                            <p ng-if="site.price_1h">Tarif: | <span ng-if="site.price_20m">20 Min - {{ site.price_20m }}€ | </span><span ng-if="site.price_30m">30 Min - {{ site.price_30m }}€ | </span><span ng-if="site.price_1h">1 Std - {{ site.price_1h }}€ | </span><span ng-if="site.price_1d">1 Tag - {{ site.price_1d }}€ | </span><span ng-if="site.price_1w">1 Woche - {{ site.price_1w }}€ | </span></p>
+                            <p ng-if="site.open_time">Öffnungszeiten: {{ site.open_time }}</p>
+                            <p ng-if="site.duration">Dauer: {{ site.duration }}</p>
+                        </div>
+                        <div flex=30 layout="column" layout-align="center center">
+                            <p ng-if="site.free">Freie Plätze: {{ catToFree(site.free) }}</p>
+                        </div>
+                    </div>
+                    <md-menu class="md-secondary">
+                        <ng-md-icon icon="menu" style="fill: #FFF"></ng-md-icon>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button href="/charts/{{site.site_id}}">
+                                    Details
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button>
+                                    Navigieren
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button>
+                                    Notifications
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-list-item>
+            </md-list>
+        </section>
+    </md-content>
 </div>
+<script>
+$(document).ready(function() {
+    $(".accordion").accordion({
+        heightStyle: "content",
+        collapsible: true,
+        active: false
+    });
+});
+</script>

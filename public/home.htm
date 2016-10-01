@@ -12,9 +12,10 @@
   <md-content class="md-padding" layout-xs="column" layout="row">
 
 <div  layout="column" style="width:95%" ng-if="location.text">
+  <h2>10 nächsten Parkhäuser zum angegebenen Standort</h2>
    <md-content style="height:400px;overflow-y:scroll;">
+ 
 <md-list style="width:100%;">
-        <md-subheader >10 nächsten Parkhäuser  </md-subheader>
         <md-list-item class="md-3-line" ng-repeat="near in nearest" ng-click="null" >
           <div class="md-list-item-text" layout="row" style="padding-top:10px;padding-bottom:10px">
           <div flex=70>
@@ -46,7 +47,7 @@
 <md-card  style="height:150px;"  ng-click="showPrerenderedDialog()">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Standort auf Karte festlegen</span>
+            <span class="md-headline">Ziel auf Karte festlegen</span>
           </md-card-title-text>
           <md-card-title-media>
            <ng-md-icon icon='satellite' style="fill: #FFF" size="64"></ng-md-icon>
@@ -59,7 +60,7 @@
 <md-card style="height:150px;"  ng-click="getCurrent()" > 
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Standort per GPS festlegen</span>
+            <span class="md-headline">Standort per GPS bestimmen</span>
           </md-card-title-text>
           <md-card-title-media>
            <ng-md-icon icon='gps_fixed' style="fill: #FFF" size="64"></ng-md-icon>
